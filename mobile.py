@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--share', action='store_true', help='Share the Gradio app', default=False)
 args = parser.parse_args()
 vc = None
-weight_root = '/assets/weights'
+weight_root = 'assets/weights'
 index_root =  'logs'
 #model_files = [f for f in os.listdir(weight_root) if f.endswith('.pth')] if os.path.exists(weight_root) and os.listdir(weight_root) else []
 index_files = []
