@@ -68,25 +68,7 @@ def convert_audio(audio_path, use_chunks, chunk_size, f0up_key, f0method, index_
         rate, data = vc.convert(audio_path)
     return (rate, np.array(data))
 
-def stereo(audio_path, delay_ms=0.6):
-    sample_rate, audio_array = audio_path
-    if len(audio_array.shape) == 1:
-        audio_bytes = audio_array.tobytes()
-        mono_audio = AudioSegment(
-            data=audio_bytes,
-            sample_width=audio_array.dtype.itemsize,
-            frame_rate=sample_rate,
-            channels=1
-        )
-        samples = np.array(mono_audio.get_array_of_samples())
-        delay_samples = int(mono_audio.frame_rate * (delay_ms / 1000.0))
-        left_channel = np.zeros_like(samples)
-        right_channel = samples
-        left_channel[delay_samples:] = samples[:-delay_samples]
-        stereo_samples = np.column_stack((left_channel, right_channel))
-        return (sample_rate, stereo_samples.astype(np.int16))
-    else:
-        return audio_path
+
 
 with gr.Blocks(title="🔊",theme=gr.themes.Base()) as app:
     gr.Markdown("# 📱VoiceCloner")
@@ -107,33 +89,14 @@ with gr.Blocks(title="🔊",theme=gr.themes.Base()) as app:
                 protect = gr.Slider(0, 0.5, value=0.33, step=0.01, label="Protect")
             convert_btn = gr.Button("Convert")
             audio_output = gr.Audio(label="Converted Audio",interactive=False)
-            stereo_output = gr.Audio(label="Stereo Effect",interactive=False)
-    # Convert audio when the button is clicked
+            
     convert_btn.click(
         convert_audio,
         inputs=[audio_input, use_chunks, chunk_size, f0up_key, f0method, index_rate, protect, model_dropdown, index_dropdown],
         outputs=[audio_output]
     )
-    audio_output.change(
-        stereo,
-        inputs=[audio_output],
-        outputs=[stereo_output]
-    )
+    
 
-    # Update the value of the index when the model changes
-    model_dropdown.change(
-        lambda model: find_matching_index(model) if model else None,
-        inputs=[model_dropdown],
-        outputs=[index_dropdown]
-    )
-    model_dropdown.change(
-        initialize_vc,
-        inputs=[model_dropdown, index_dropdown],
-    )
-    # Update the value of the index when the index changes
-    index_dropdown.change(
-        initialize_vc,
-        inputs=[model_dropdown, index_dropdown],
-    )
+
 
 app.launch(share=args.share,allowed_paths=["a.png","kofi_button.png"])
