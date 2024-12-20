@@ -11,12 +11,20 @@ args = parser.parse_args()
 vc = None
 weight_root = '/assets/weights'
 index_root =  'logs'
-model_files = [f for f in os.listdir(weight_root) if f.endswith('.pth')] if os.path.exists(weight_root) and os.listdir(weight_root) else []
+#model_files = [f for f in os.listdir(weight_root) if f.endswith('.pth')] if os.path.exists(weight_root) and os.listdir(weight_root) else []
 index_files = []
 for root, dirs, files in os.walk(index_root):
     for file in files:
         if file.endswith('.index'):
             index_files.append(os.path.join(root, file))
+
+model_files = []
+for root, dirs, files in os.walk(weight_root):
+    for file in files:
+        if file.endswith('.pth'):
+            index_files.append(os.path.join(root, file))
+
+
 
 def initialize_vc(model, index):
     global vc
