@@ -94,12 +94,9 @@ with gr.Blocks(title="🔊",theme=gr.themes.Base()) as app:
         gr.HTML("<a href='https://ko-fi.com/rejekts' target='_blank'>🤝 Donate </a>")
     with gr.Row():
         with gr.Column():
-            model_dropdown = gr.Dropdown(choices=model_files, label="Select Model", value=model_files[0] if len(model_files) > 0 else None)
-            try: 
-                initialize_vc(model_files[0], find_matching_index(model_files[0]))
-            except: 
-                pass
-            index_dropdown = gr.Dropdown(choices=index_files, label="Select Index", value=find_matching_index(model_files[0] if len(model_files) > 0 else None))
+            model_dropdown = gr.Textbox(label=" pth path")        
+            index_dropdown = gr.Textbox(label=" index path")
+            
             audio_input = gr.Textbox(label="Input Audio")
             with gr.Accordion("Settings",open=False):
                 use_chunks = gr.Checkbox(label="Use Chunks", value=True)
