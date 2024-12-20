@@ -1,14 +1,14 @@
 import subprocess, os
 cwd = os.getcwd()
 
-directories = ["logs", "assets", "outputs", "assets/rmvpe", "assets/hubert", "audios", "assets/rmvpe","assets/weights"]
+directories = ["logs", "outputs", "audios","assets/weights"]
 
 for directory in directories:
     os.makedirs(os.path.join(cwd, directory), exist_ok=True)
 
 files = {
-    "assets/rmvpe/rmvpe.pt": "https://huggingface.co/Rejekts/project/resolve/main/rmvpe.pt",
-    "assets/hubert/hubert_base.pt": "https://huggingface.co/Rejekts/project/resolve/main/hubert_base.pt",
+    "rmvpe.pt": "https://huggingface.co/Rejekts/project/resolve/main/rmvpe.pt",
+    "hubert_base.pt": "https://huggingface.co/Rejekts/project/resolve/main/hubert_base.pt",
     "audios/someguy.mp3": "https://huggingface.co/Rejekts/project/resolve/main/someguy.mp3",
     "audios/somegirl.mp3": "https://huggingface.co/Rejekts/project/resolve/main/somegirl.mp3",
     "audios/unchico.mp3": "https://huggingface.co/Rejekts/project/resolve/main/unchico.mp3",
