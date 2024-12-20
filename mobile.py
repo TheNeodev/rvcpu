@@ -80,7 +80,7 @@ def stereo(audio_path, delay_ms=0.6):
     else:
         return audio_path
 
-with gr.Blocks(title="🔊",theme=gr.themes.Base(primary_hue="rose",neutral_hue="zinc")) as app:
+with gr.Blocks(title="🔊",theme=gr.themes.Base()) as app:
     gr.Markdown("# 📱VoiceCloner")
     with gr.Row():
         gr.HTML("<a href='https://ko-fi.com/rejekts' target='_blank'>🤝 Donate </a>")
@@ -92,7 +92,7 @@ with gr.Blocks(title="🔊",theme=gr.themes.Base(primary_hue="rose",neutral_hue=
             except: 
                 pass
             index_dropdown = gr.Dropdown(choices=index_files, label="Select Index", value=find_matching_index(model_files[0] if len(model_files) > 0 else None))
-            audio_input = gr.Audio(label="Input Audio", type="filepath")
+            audio_input = gr.Textbox(label="Input Audio")
             with gr.Accordion("Settings",open=False):
                 use_chunks = gr.Checkbox(label="Use Chunks", value=True)
                 chunk_size = gr.Slider(1, 30, value=10, step=1, label="Chunk Size (seconds)")
